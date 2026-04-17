@@ -20,9 +20,10 @@ interface HeroProps {
   subtext?: string
   missionStatement?: string
   heroImage?: { src: string; alt: string } | null
+  showCtfsSubsidiary?: boolean
 }
 
-export default function Hero({ heading, missionStatement, heroImage }: HeroProps) {
+export default function Hero({ heading, missionStatement, heroImage, showCtfsSubsidiary = true }: HeroProps) {
   const t = useTranslations('hero')
   const tc = useTranslations('common')
 
@@ -110,9 +111,11 @@ export default function Hero({ heading, missionStatement, heroImage }: HeroProps
               {t('sfcBadge')}
             </span>
           </div>
-          <p className="font-sans text-[10px] font-medium text-gold text-shadow-hero">
-            {t('ctfsSubsidiary')}
-          </p>
+          {showCtfsSubsidiary && (
+            <p className="font-sans text-[10px] font-medium text-gold text-shadow-hero">
+              {t('ctfsSubsidiary')}
+            </p>
+          )}
         </motion.div>
       </div>
 

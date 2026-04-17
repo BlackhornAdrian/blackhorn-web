@@ -2,10 +2,13 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import { SITE_CONFIG } from '@/lib/constants'
+import { fetchSiteSettings } from '@/lib/sanity/fetch'
 
 export default async function Footer() {
   const t = await getTranslations('footer')
   const tc = await getTranslations('common')
+  const settings = await fetchSiteSettings()
+  const showCtfsSubsidiary = settings?.showCtfsSubsidiary !== false
 
   const legalLinks = [
     { href: '/disclaimer', label: t('disclaimer') },
@@ -31,9 +34,11 @@ export default async function Footer() {
           <p className="mt-3 font-sans text-[11px] text-white/20">
             {SITE_CONFIG.license}
           </p>
-          <p className="mt-1 font-sans text-[11px] font-medium text-gold">
-            {t('ctfsSubsidiary')}
-          </p>
+          {showCtfsSubsidiary && (
+            <p className="mt-1 font-sans text-[11px] font-medium text-gold">
+              {t('ctfsSubsidiary')}
+            </p>
+          )}
         </div>
         <div className="flex flex-col items-center gap-3 md:items-end">
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 md:justify-end">

@@ -44,6 +44,7 @@ export interface CMSSiteSettings {
   address_zh?: string
   sfcLicense?: string
   sfcTypes?: string
+  showCtfsSubsidiary?: boolean
   linkedinUrl?: string
   heroHeading?: string
   heroHeading_zh?: string

@@ -29,6 +29,7 @@ export default async function Home() {
           subtext={subtext}
           missionStatement={missionStatement}
           heroImage={heroImage}
+          showCtfsSubsidiary={settings?.showCtfsSubsidiary !== false}
         />
         <TrustBar cmsStats={settings?.trustBarStats} />
         <WhatWeOffer />

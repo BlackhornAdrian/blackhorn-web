@@ -74,6 +74,13 @@ export default defineType({
       initialValue: 'Type 4 & Type 9',
     }),
     defineField({
+      name: 'showCtfsSubsidiary',
+      title: 'Show "Subsidiary of CTFS" label',
+      description: 'Toggle to show or hide the "Subsidiary of CTFS (HKEX stock code: 00659)" text on the homepage and footer',
+      type: 'boolean',
+      initialValue: true,
+    }),
+    defineField({
       name: 'linkedinUrl',
       title: 'LinkedIn URL',
       type: 'url',
