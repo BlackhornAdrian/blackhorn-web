@@ -4,6 +4,7 @@ import FadeIn from '@/components/ui/FadeIn'
 import ContactCTA from '@/components/home/ContactCTA'
 import { BreadcrumbJsonLd } from '@/components/seo/JsonLd'
 import AboutSectionNav from '@/components/about/AboutSectionNav'
+import AwardRow from '@/components/awards/AwardRow'
 import { getTranslations, getLocale } from 'next-intl/server'
 import { fetchAwards, fetchSiteSettings, getHeroImage, getHeroText } from '@/lib/sanity/fetch'
 
@@ -196,52 +197,16 @@ export default async function AwardsPage() {
         {/* Awards Grid */}
         <section className="bg-light-bg py-24">
           <div className="mx-auto max-w-7xl px-6">
-            <div className="space-y-8">
+            <div className="space-y-4">
               {awards.map((award, i) => (
                 <FadeIn key={`${award.year}-${award.title}`} delay={i * 0.05}>
-                  <div className="grid gap-8 border border-light-border bg-white p-8 shadow-sm transition-all duration-[450ms] hover:border-gold/30 hover:shadow-md md:grid-cols-[auto_1fr] md:p-10">
-                    {/* Year badge */}
-                    <div className="flex flex-col items-center justify-start">
-                      <span className="font-serif text-5xl font-light text-gold-dark">
-                        {award.year}
-                      </span>
-                      <div className="mt-2 h-[0.5px] w-8 bg-gold-dark/30" />
-                    </div>
-
-                    {/* Content */}
-                    <div>
-                      <p className="font-sans text-xs uppercase tracking-widest text-gold-dark/70">
-                        {award.org}
-                      </p>
-                      <h2 className="mt-3 font-serif text-2xl font-light text-light-text md:text-3xl">
-                        {award.title}
-                      </h2>
-                      <p className="mt-4 font-sans text-sm font-light leading-relaxed text-light-text-secondary">
-                        {award.context}
-                      </p>
-
-                      {/* Award images */}
-                      {award.images && award.images.length > 0 && (
-                        <div className="mt-6 flex flex-wrap gap-4">
-                          {award.images.map((img) => (
-                            <div
-                              key={img.src}
-                              className="overflow-hidden rounded border border-light-border"
-                            >
-                              <Image
-                                src={img.src}
-                                alt={img.alt}
-                                width={400}
-                                height={300}
-                                className="h-auto max-h-80 w-full object-contain sm:w-80"
-                                sizes="(max-width: 640px) 100vw, 320px"
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                  <AwardRow
+                    year={award.year}
+                    org={award.org}
+                    title={award.title}
+                    context={award.context}
+                    images={award.images}
+                  />
                 </FadeIn>
               ))}
             </div>
