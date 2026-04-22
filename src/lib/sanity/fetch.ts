@@ -300,7 +300,14 @@ export async function fetchServiceBySlug(
 
 export async function fetchPressArticles(): Promise<CMSPressArticle[]> {
   const data = await safeFetch<CMSPressArticle[]>(pressArticlesQuery, {}, ['pressArticle'])
-  return data && data.length > 0 ? data : []
+  if (!data || data.length === 0) return []
+  // Deduplicate by _id in case of accidental duplicate Sanity documents
+  const seen = new Set<string>()
+  return data.filter((a) => {
+    if (seen.has(a._id)) return false
+    seen.add(a._id)
+    return true
+  })
 }
 
 export async function fetchPressArticleBySlug(
