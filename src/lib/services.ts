@@ -55,8 +55,8 @@ export const services: ServiceItem[] = [
   {
     slug: 'ctfs-ecosystem',
     icon: '›',
-    title: 'CTFs Ecosystem',
-    shortTitle: 'CTFs Ecosystem',
+    title: 'CTFS Ecosystem',
+    shortTitle: 'CTFS Ecosystem',
     shortTitle_zh: '周大福集團生態圈',
     desc: 'Blackhorn is an integral member of the CTF Group ecosystem, leveraging the Group\'s diversified business platform to deliver differentiated and integrated wealth management solutions.',
     href: '/services/ctfs-ecosystem',

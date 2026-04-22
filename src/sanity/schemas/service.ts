@@ -88,7 +88,7 @@ export default defineType({
     defineField({
       name: 'infographicImage',
       title: 'Infographic / Platform Overview Image',
-      description: 'E.g. Family Office structure diagram or CTFs Ecosystem platform overview',
+      description: 'E.g. Family Office structure diagram or CTFS Ecosystem platform overview',
       type: 'image',
       options: { hotspot: true },
     }),
@@ -140,11 +140,11 @@ export default defineType({
       },
       initialValue: 'full',
     }),
-    // ── Ecosystem Partner Logos (CTFs Ecosystem page) ──────────────
+    // ── Ecosystem Partner Logos (CTFS Ecosystem page) ──────────────
     defineField({
       name: 'ecosystemPartners',
       title: 'Ecosystem Partner Logos',
-      description: 'Logos with links for the CTFs Ecosystem page partner grid',
+      description: 'Logos with links for the CTFS Ecosystem page partner grid',
       type: 'array',
       of: [
         defineArrayMember({

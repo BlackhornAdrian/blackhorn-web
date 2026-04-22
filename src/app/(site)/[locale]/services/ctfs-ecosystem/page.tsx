@@ -8,12 +8,12 @@ import { fetchSiteSettings, fetchServiceBySlug, getHeroImage } from '@/lib/sanit
 import { localized, localizedBlocks } from '@/lib/i18n-utils'
 
 export const metadata: Metadata = {
-  title: 'CTFs Ecosystem | Blackhorn Wealth Management',
+  title: 'CTFS Ecosystem | Blackhorn Wealth Management',
   description:
     'Blackhorn is an integral member of the CTF Group ecosystem, leveraging the Group\'s diversified business platform to deliver differentiated and integrated wealth management solutions.',
 }
 
-export default async function CTFsEcosystemPage() {
+export default async function CTFSEcosystemPage() {
   const locale = await getLocale()
   const tHub = await getTranslations('servicesHub')
   const tHome = await getTranslations('homepage')
@@ -50,7 +50,7 @@ export default async function CTFsEcosystemPage() {
     service?.infographicUrl || '/images/services/ctfs-ecosystem.jpg'
   const infographicAlt =
     service?.infographicAlt ||
-    'CTFs Ecosystem — CTF Group business platform overview'
+    'CTFS Ecosystem — CTF Group business platform overview'
   const infographicLabel =
     locale === 'zh-hant' && service?.infographicLabel_zh
       ? service.infographicLabel_zh

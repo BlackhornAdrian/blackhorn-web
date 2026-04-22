@@ -132,7 +132,7 @@ export default defineType({
                   { title: 'Wealth Management', value: 'wealthManagement' },
                   { title: 'Family Office Advisory', value: 'familyOffice' },
                   { title: 'Legacy Planning', value: 'legacyPlanning' },
-                  { title: 'CTFs Ecosystem', value: 'ctfsEcosystem' },
+                  { title: 'CTFS Ecosystem', value: 'ctfsEcosystem' },
                 ],
               },
             }),

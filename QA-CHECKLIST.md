@@ -43,7 +43,7 @@
 | 13 | Services Hub | `/services` | | | |
 | 14 | Portfolio Management | `/services/wealth-management` | | | |
 | 15 | Family Office Advisory | `/services/family-office` | | | |
-| 16 | CTFs Ecosystem | `/services/ctfs-ecosystem` | | | |
+| 16 | CTFS Ecosystem | `/services/ctfs-ecosystem` | | | |
 | 17 | Legacy Planning | `/services/estate-legacy` | | | |
 | 18 | Deal Sourcing | `/services/investment-advisory` | | | |
 | 19 | Real Estate & Financing | `/services/real-estate-financing` | | | |
