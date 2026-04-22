@@ -14,6 +14,8 @@ interface ServicePageLayoutProps {
   subtitle: string
   currentSlug: string
   heroImageSrc?: string
+  /** Use object-contain instead of object-cover (for logos rather than photos) */
+  heroImageContain?: boolean
   children: ReactNode
   /** Accordion items from CMS features — rendered below children */
   accordionItems?: { title: string; content: string }[]
@@ -39,6 +41,7 @@ export default function ServicePageLayout({
   subtitle,
   currentSlug,
   heroImageSrc,
+  heroImageContain = false,
   children,
   accordionItems,
   bodyFontSize = 'medium',
@@ -81,7 +84,7 @@ export default function ServicePageLayout({
             src={heroImageSrc}
             alt=""
             fill
-            className="object-cover"
+            className={heroImageContain ? 'object-contain object-center' : 'object-cover'}
             priority
             quality={85}
             sizes="100vw"

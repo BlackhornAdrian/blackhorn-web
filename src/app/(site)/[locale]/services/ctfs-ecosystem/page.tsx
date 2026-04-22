@@ -63,6 +63,7 @@ export default async function CTFsEcosystemPage() {
       subtitle={localized(service, 'shortDescription', locale) || tHome('ctfsEcosystemDesc')}
       currentSlug="ctfs-ecosystem"
       heroImageSrc={heroImage?.src}
+      heroImageContain={true}
       accordionItems={accordionItems}
       infographicUrl={infographicUrl}
       infographicLabel={infographicLabel}
