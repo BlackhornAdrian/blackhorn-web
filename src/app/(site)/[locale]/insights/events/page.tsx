@@ -225,45 +225,46 @@ export default async function EventsPage() {
           </section>
         )}
 
-        {/* All Events Grid */}
-        <section className="py-24">
+        {/* All Events — horizontal card list, white background */}
+        <section className="border-t border-light-border bg-white py-24">
           <div className="mx-auto max-w-7xl px-6">
             <FadeIn>
-              <p className="font-sans text-xs uppercase tracking-widest text-gold">
+              <p className="font-sans text-xs uppercase tracking-widest text-gold-dark">
                 {t('allEventsOverline')}
               </p>
-              <h2 className="mt-4 font-serif text-3xl font-light text-light">
+              <h2 className="mt-4 font-serif text-3xl font-light text-light-text">
                 {t('allEventsTitle')}
               </h2>
-              <div className="mt-4 h-[0.5px] w-10 bg-gold" />
+              <div className="mt-4 h-[0.5px] w-10 bg-gold-dark" />
             </FadeIn>
 
-            <div className="mt-12 grid gap-8 md:grid-cols-2">
+            <div className="mt-12 space-y-4">
               {events.map((event, i) => (
-                <FadeIn key={event.slug || i} delay={i * 0.1}>
+                <FadeIn key={event.slug || i} delay={i * 0.08}>
                   <Link
                     href={`/insights/events/${event.slug}`}
-                    className="group block border-[0.5px] border-gold/8 bg-dark-card transition-all duration-[450ms] hover:border-gold/15 hover:bg-gold/[0.02]"
+                    className="group flex min-h-[160px] border border-light-border bg-white shadow-sm transition-all duration-[450ms] hover:border-gold/30 hover:shadow-md sm:min-h-[180px]"
                   >
-                    {/* Image */}
-                    <div className="relative aspect-[16/9] overflow-hidden">
+                    {/* Image — fixed width column */}
+                    <div className="relative w-40 shrink-0 overflow-hidden sm:w-56 md:w-72">
                       {event.image ? (
                         <Image
                           src={event.image}
                           alt={event.title}
                           fill
-                          className="object-cover object-top transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
-                          sizes="(max-width: 768px) 100vw, 50vw"
+                          className="object-cover object-top transition-transform duration-700 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+                          sizes="(max-width: 640px) 160px, (max-width: 768px) 224px, 288px"
                         />
                       ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-dark-section">
-                          <span className="font-serif text-lg text-muted">
+                        <div className="flex h-full w-full items-center justify-center bg-light-bg">
+                          <span className="font-serif text-base text-light-text-secondary">
                             {event.title}
                           </span>
                         </div>
                       )}
-                      <div className="absolute left-4 top-4">
-                        <span className="bg-dark/80 px-3 py-1.5 font-sans text-[10px] uppercase tracking-widest text-gold backdrop-blur-sm">
+                      {/* Status badge */}
+                      <div className="absolute left-3 top-3">
+                        <span className="border border-light-border bg-white/90 px-2 py-1 font-sans text-[9px] uppercase tracking-widest text-gold-dark backdrop-blur-sm">
                           {event.status === 'past'
                             ? t('pastEvent')
                             : t('upcoming')}
@@ -272,25 +273,25 @@ export default async function EventsPage() {
                     </div>
 
                     {/* Content */}
-                    <div className="p-8">
-                      <div className="flex items-center gap-4 font-sans text-xs text-muted">
+                    <div className="flex flex-1 flex-col justify-center p-5 sm:p-7 md:p-10">
+                      <div className="flex flex-wrap items-center gap-3 font-sans text-xs text-light-text-secondary">
                         <span>{event.date}</span>
                         {event.location && (
                           <>
-                            <span className="h-[0.5px] w-4 bg-gold/30" />
+                            <span className="h-[0.5px] w-3 bg-gold-dark/30" />
                             <span>{event.location}</span>
                           </>
                         )}
                       </div>
-                      <h3 className="mt-3 font-serif text-xl font-light text-light transition-colors duration-300 group-hover:text-gold md:text-2xl">
+                      <h3 className="mt-2 font-serif text-xl font-light text-light-text transition-colors duration-300 group-hover:text-gold-dark md:text-2xl">
                         {event.title}
                       </h3>
                       {event.description && (
-                        <p className="mt-3 font-sans text-sm font-light leading-relaxed text-muted line-clamp-2">
+                        <p className="mt-2 font-sans text-sm font-light leading-relaxed text-light-text-secondary line-clamp-2">
                           {event.description}
                         </p>
                       )}
-                      <span className="mt-5 inline-flex items-center gap-2 font-sans text-xs uppercase tracking-widest text-gold transition-all duration-300 group-hover:gap-3">
+                      <span className="mt-4 inline-flex items-center gap-2 font-sans text-xs uppercase tracking-widest text-gold-dark transition-all duration-300 group-hover:gap-3">
                         {t('viewDetails')}
                         <span>›</span>
                       </span>
