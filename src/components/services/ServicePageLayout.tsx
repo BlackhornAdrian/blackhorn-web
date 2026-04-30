@@ -85,9 +85,10 @@ export default function ServicePageLayout({
             Photos (object-cover) keep the full-bleed background everywhere. */}
         {heroImageSrc && heroImageContain && (
           <div className="md:hidden">
-            {/* Spacer to clear the fixed navbar so the logo isn't overlapped */}
-            <div className="h-20 bg-dark" />
-            <div className="relative aspect-[5/3] w-full bg-dark">
+            {/* Spacer clears the fixed navbar; smaller aspect keeps banner
+                visually balanced with the text section below. */}
+            <div className="h-16 bg-dark" />
+            <div className="relative aspect-[2/1] w-full bg-dark">
               <Image
                 src={heroImageSrc}
                 alt=""
@@ -124,7 +125,7 @@ export default function ServicePageLayout({
             top padding because the banner above already provides the gap. */}
         <div
           className={`relative z-10 mx-auto max-w-7xl px-6 pb-16 ${
-            heroImageContain ? 'pt-10 md:pt-32' : 'pt-32'
+            heroImageContain ? 'pt-6 md:pt-32' : 'pt-32'
           }`}
         >
           <FadeIn>
