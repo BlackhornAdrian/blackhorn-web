@@ -2,6 +2,23 @@ import { SITE_CONFIG } from '@/lib/constants'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.blackhorngrp.com'
 
+/**
+ * Serialize a JSON-LD schema for safe embedding inside a <script> tag.
+ *
+ * Without this, a CMS-driven string containing `</script>` (or U+2028 / U+2029)
+ * could break out of the JSON-LD block and inject arbitrary HTML/JS.
+ * We escape the four characters that can terminate or alter a JSON string
+ * once it lands inside an HTML <script> context.
+ */
+function safeJsonLd(schema: object): string {
+  return JSON.stringify(schema)
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e')
+    .replace(/&/g, '\\u0026')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029')
+}
+
 export function OrganizationJsonLd() {
   const schema = {
     '@context': 'https://schema.org',
@@ -27,7 +44,7 @@ export function OrganizationJsonLd() {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
     />
   )
 }
@@ -61,7 +78,7 @@ export function FinancialServiceJsonLd() {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
     />
   )
 }
@@ -86,7 +103,7 @@ export function BreadcrumbJsonLd({ items }: { items: BreadcrumbItem[] }) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
     />
   )
 }

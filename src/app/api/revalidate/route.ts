@@ -12,13 +12,31 @@ import { NextRequest, NextResponse } from 'next/server'
  *   Method:    POST
  */
 export async function POST(req: NextRequest) {
-  const secret = req.nextUrl.searchParams.get('secret')
+  // ── Fail-closed auth ──────────────────────────────────────────────
+  // The webhook MUST have a secret configured; otherwise refuse to run.
+  // (Previous behaviour silently allowed every POST when the env var was
+  // unset, which let any third party trigger a full-site revalidation.)
+  const expected = process.env.SANITY_REVALIDATE_SECRET
+  if (!expected) {
+    console.error(
+      '[revalidate] SANITY_REVALIDATE_SECRET is not configured. Refusing request.'
+    )
+    return NextResponse.json(
+      { message: 'Webhook not configured' },
+      { status: 503 }
+    )
+  }
 
-  // Verify webhook secret if one is configured
-  if (process.env.SANITY_REVALIDATE_SECRET) {
-    if (secret !== process.env.SANITY_REVALIDATE_SECRET) {
-      return NextResponse.json({ message: 'Invalid secret' }, { status: 401 })
-    }
+  // Prefer Authorization header; fall back to ?secret= query param for
+  // backwards compatibility with the existing Sanity webhook setup.
+  const authHeader = req.headers.get('authorization') ?? ''
+  const bearerSecret = authHeader.startsWith('Bearer ')
+    ? authHeader.slice(7).trim()
+    : null
+  const secret = bearerSecret ?? req.nextUrl.searchParams.get('secret')
+
+  if (secret !== expected) {
+    return NextResponse.json({ message: 'Invalid secret' }, { status: 401 })
   }
 
   try {
