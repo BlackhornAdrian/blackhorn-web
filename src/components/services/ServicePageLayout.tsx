@@ -78,19 +78,55 @@ export default function ServicePageLayout({
     />
     <main className="min-h-screen bg-dark">
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-gold/6 bg-dark-section pb-16 pt-32">
+      <section className="relative overflow-hidden border-b border-gold/6 bg-dark-section">
+        {/* Mobile: when heroImageContain is true (logo image), stack image as
+            a banner above the text instead of cramming it into a narrow
+            section where object-contain renders as a thin horizontal strip.
+            Photos (object-cover) keep the full-bleed background everywhere. */}
+        {heroImageSrc && heroImageContain && (
+          <div className="md:hidden">
+            {/* Spacer to clear the fixed navbar so the logo isn't overlapped */}
+            <div className="h-20 bg-dark" />
+            <div className="relative aspect-[5/3] w-full bg-dark">
+              <Image
+                src={heroImageSrc}
+                alt=""
+                fill
+                className="object-contain object-center"
+                priority
+                quality={85}
+                sizes="100vw"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Desktop (md+) — full-bleed background image as before. For
+            cover-mode (photos), this also serves mobile. */}
         {heroImageSrc && (
           <Image
             src={heroImageSrc}
             alt=""
             fill
-            className={heroImageContain ? 'object-contain object-center' : 'object-cover'}
+            className={
+              heroImageContain
+                ? 'hidden object-contain object-center md:block'
+                : 'object-cover'
+            }
             priority
             quality={85}
             sizes="100vw"
           />
         )}
-        <div className="relative z-10 mx-auto max-w-7xl px-6">
+
+        {/* Inner content. Cover-mode pages need full pt-32 navbar clearance
+            on mobile (text overlays photo). Contain-mode mobile gets less
+            top padding because the banner above already provides the gap. */}
+        <div
+          className={`relative z-10 mx-auto max-w-7xl px-6 pb-16 ${
+            heroImageContain ? 'pt-10 md:pt-32' : 'pt-32'
+          }`}
+        >
           <FadeIn>
             {/* Breadcrumb */}
             <nav className="mb-8 flex items-center gap-2 font-sans text-[11px] uppercase tracking-widest text-muted">
