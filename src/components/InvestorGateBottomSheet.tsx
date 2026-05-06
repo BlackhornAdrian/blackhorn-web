@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 
 const STORAGE_KEY = 'blackhorn_investor_accepted'
-const ACCEPT_DURATION_MS = 30 * 24 * 60 * 60 * 1000 // 30 days
+const ACCEPT_DURATION_MS = 1 * 60 * 60 * 1000 // 1 hour
 
 export interface InvestorGateCMSData {
   enabled?: boolean
