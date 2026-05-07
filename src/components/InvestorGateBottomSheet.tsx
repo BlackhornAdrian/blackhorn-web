@@ -89,9 +89,9 @@ export default function InvestorGateBottomSheet({
             aria-modal="true"
             aria-labelledby="investor-gate-title"
           >
-            <div className="border-t border-gold/20 bg-dark-900 shadow-[0_-20px_60px_rgba(0,0,0,0.6)]">
+            <div className="flex max-h-[90vh] flex-col overflow-hidden border-t border-gold/20 bg-dark-900 shadow-[0_-20px_60px_rgba(0,0,0,0.6)]">
               {/* Header */}
-              <div className="border-b border-gold/10 px-6 py-5 sm:px-10">
+              <div className="flex-shrink-0 border-b border-gold/10 px-6 py-5 sm:px-10">
                 <div className="mx-auto flex max-w-4xl items-center gap-3">
                   <svg
                     width="28"
@@ -128,8 +128,8 @@ export default function InvestorGateBottomSheet({
                 </div>
               </div>
 
-              {/* Body */}
-              <div className="px-6 py-6 sm:px-10">
+              {/* Body — scrollable on short screens */}
+              <div className="overflow-y-auto px-6 py-6 sm:px-10">
                 <div className="mx-auto max-w-4xl">
                   <div className="grid gap-6 md:grid-cols-2">
                     {/* Disclaimer column */}
