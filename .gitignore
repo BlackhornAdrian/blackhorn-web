@@ -34,3 +34,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Large originals and duplicate archive — tracked separately outside repo
+blackhorn-web-main/
+blackhorn-web-main.zip
+public/images/_originals/
+temp-assets/

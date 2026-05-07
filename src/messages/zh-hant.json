@@ -260,6 +260,12 @@
       "desc": "度身定制的物業投資策略及亞太區市場融資方案。"
     }
   },
+  "serviceLayout": {
+    "otherServices": "其他服務",
+    "readyToStart": "準備好開始了嗎？",
+    "ctaBody": "與我們的團隊交流，探索我們如何為您度身定制服務。",
+    "contactUs": "聯絡我們"
+  },
   "servicesHub": {
     "overline": "我們的服務",
     "title": "客戶",

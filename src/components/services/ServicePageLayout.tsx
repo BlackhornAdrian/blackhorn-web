@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 import FadeIn from '@/components/ui/FadeIn'
 import ContactCTA from '@/components/home/ContactCTA'
 import Accordion from '@/components/ui/Accordion'
@@ -35,7 +36,7 @@ interface ServicePageLayoutProps {
   ecosystemPartnersLabel?: string
 }
 
-export default function ServicePageLayout({
+export default async function ServicePageLayout({
   title,
   overline,
   subtitle,
@@ -52,6 +53,7 @@ export default function ServicePageLayout({
   ecosystemPartners,
   ecosystemPartnersLabel,
 }: ServicePageLayoutProps) {
+  const t = await getTranslations('serviceLayout')
   const otherServices = services.filter((s) => s.slug !== currentSlug)
 
   const bodyFontSizeClass: Record<string, string> = {
@@ -255,7 +257,7 @@ export default function ServicePageLayout({
               {/* Other Services nav */}
               <div className="border border-light-border bg-white p-6 shadow-sm">
                 <h3 className="font-sans text-[11px] uppercase tracking-widest text-gold-dark">
-                  Other Services
+                  {t('otherServices')}
                 </h3>
                 <ul className="mt-5 space-y-4">
                   {otherServices.map((s) => (
@@ -277,17 +279,16 @@ export default function ServicePageLayout({
               {/* CTA card */}
               <div className="border border-light-border bg-white p-6 shadow-sm">
                 <h3 className="font-serif text-lg font-light text-light-text">
-                  Ready to get started?
+                  {t('readyToStart')}
                 </h3>
                 <p className="mt-3 font-sans text-xs leading-relaxed text-light-text-secondary">
-                  Speak with our team to explore how we can tailor our services
-                  to your needs.
+                  {t('ctaBody')}
                 </p>
                 <Link
                   href="/contact"
                   className="mt-5 inline-flex items-center justify-center bg-gold px-6 py-2.5 font-sans text-xs uppercase tracking-widest text-dark transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold-light"
                 >
-                  Contact Us
+                  {t('contactUs')}
                 </Link>
               </div>
             </aside>

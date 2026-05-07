@@ -1,7 +1,43 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Lazy-init so the constructor doesn't throw at build time when env var is absent
+let resend: Resend | null = null
+function getResend(): Resend {
+  if (!resend) resend = new Resend(process.env.RESEND_API_KEY)
+  return resend
+}
+
+// ── Simple in-memory rate limiter ─────────────────────────────────────────────
+// Limits each IP to MAX_REQUESTS per WINDOW_MS.
+// Note: serverless instances have separate memory, so this is a per-instance
+// guard rather than a global one. For stricter limits use Upstash Redis.
+const WINDOW_MS = 60_000 // 1 minute
+const MAX_REQUESTS = 5
+const ipMap = new Map<string, { count: number; resetAt: number }>()
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now()
+  const entry = ipMap.get(ip)
+  if (!entry || now > entry.resetAt) {
+    ipMap.set(ip, { count: 1, resetAt: now + WINDOW_MS })
+    return false
+  }
+  if (entry.count >= MAX_REQUESTS) return true
+  entry.count++
+  return false
+}
+
+// ── HTML escaping ─────────────────────────────────────────────────────────────
+// Prevent HTML injection in the email body via user-supplied form fields.
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+}
 
 interface ContactPayload {
   firstName: string
@@ -16,6 +52,25 @@ function isValidEmail(email: string): boolean {
 }
 
 export async function POST(request: Request) {
+  // ── Rate limiting ─────────────────────────────────────────────────────────
+  const ip =
+    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+    request.headers.get('x-real-ip') ??
+    'unknown'
+
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { message: 'Too many requests. Please try again later.' },
+      { status: 429 }
+    )
+  }
+
+  // ── Payload size guard ────────────────────────────────────────────────────
+  const contentLength = request.headers.get('content-length')
+  if (contentLength && parseInt(contentLength, 10) > 20_000) {
+    return NextResponse.json({ message: 'Payload too large.' }, { status: 413 })
+  }
+
   try {
     const body: ContactPayload = await request.json()
     const { firstName, lastName, email, phone, message } = body
@@ -34,10 +89,17 @@ export async function POST(request: Request) {
       )
     }
 
-    await resend.emails.send({
+    // HTML-escape all user-supplied values before interpolating into email
+    const safeName = `${escapeHtml(firstName.trim())} ${escapeHtml(lastName.trim())}`
+    const safeEmail = escapeHtml(email.trim())
+    const safePhone = phone?.trim() ? escapeHtml(phone.trim()) : null
+    const safeMessage = escapeHtml(message.trim()).replace(/\n/g, '<br>')
+
+    await getResend().emails.send({
       from: 'Blackhorn Website <noreply@blackhorngrp.com>',
       to: 'info@blackhorngrp.com',
-      subject: `Website Enquiry from ${firstName.trim()} ${lastName.trim()}`,
+      replyTo: safeEmail,
+      subject: `Website Enquiry from ${escapeHtml(firstName.trim())} ${escapeHtml(lastName.trim())}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
           <h2 style="color: #1a1a1a; border-bottom: 2px solid #C9A96E; padding-bottom: 12px;">
@@ -46,21 +108,21 @@ export async function POST(request: Request) {
           <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
             <tr>
               <td style="padding: 8px 12px; font-weight: bold; color: #666; width: 140px;">Name</td>
-              <td style="padding: 8px 12px;">${firstName.trim()} ${lastName.trim()}</td>
+              <td style="padding: 8px 12px;">${safeName}</td>
             </tr>
             <tr style="background: #f9f9f9;">
               <td style="padding: 8px 12px; font-weight: bold; color: #666;">Email</td>
-              <td style="padding: 8px 12px;"><a href="mailto:${email.trim()}">${email.trim()}</a></td>
+              <td style="padding: 8px 12px;"><a href="mailto:${safeEmail}">${safeEmail}</a></td>
             </tr>
-            ${phone?.trim() ? `
+            ${safePhone ? `
             <tr>
               <td style="padding: 8px 12px; font-weight: bold; color: #666;">Phone</td>
-              <td style="padding: 8px 12px;">${phone.trim()}</td>
+              <td style="padding: 8px 12px;">${safePhone}</td>
             </tr>
             ` : ''}
             <tr style="background: #f9f9f9;">
               <td style="padding: 8px 12px; font-weight: bold; color: #666; vertical-align: top;">Message</td>
-              <td style="padding: 8px 12px; white-space: pre-wrap;">${message.trim()}</td>
+              <td style="padding: 8px 12px; white-space: pre-wrap;">${safeMessage}</td>
             </tr>
           </table>
           <p style="margin-top: 24px; font-size: 12px; color: #999;">

@@ -260,6 +260,12 @@
       "desc": "Bespoke property investment strategies and financing solutions across Asia-Pacific markets."
     }
   },
+  "serviceLayout": {
+    "otherServices": "Other Services",
+    "readyToStart": "Ready to get started?",
+    "ctaBody": "Speak with our team to explore how we can tailor our services to your needs.",
+    "contactUs": "Contact Us"
+  },
   "servicesHub": {
     "overline": "Our Services",
     "title": "The Client",
