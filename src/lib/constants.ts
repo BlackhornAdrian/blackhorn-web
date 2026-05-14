@@ -6,5 +6,5 @@ export const SITE_CONFIG = {
   address: 'Room 705-708, 7/F, Bank of America Tower, 12 Harcourt Road, Central, Hong Kong',
   license: 'SFC Licensed — Type 4 & Type 9 — License No. BNM924',
   linkedin: 'https://www.linkedin.com/company/blackhorn-wealth-management/',
-  url: 'https://www.blackhorngrp.com',
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.blackhorngrp.com',
 }

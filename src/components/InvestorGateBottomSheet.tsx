@@ -23,7 +23,6 @@ export default function InvestorGateBottomSheet({
 }) {
   const t = useTranslations('investorDisclaimer')
   const [show, setShow] = useState(false)
-  const [mounted, setMounted] = useState(false)
 
   // CMS can disable the gate entirely
   const enabled = cms?.enabled ?? true
@@ -36,14 +35,10 @@ export default function InvestorGateBottomSheet({
 
   useEffect(() => {
     if (!enabled) return
-    setMounted(true)
     const accepted = localStorage.getItem(STORAGE_KEY)
     if (accepted) {
       const acceptedAt = parseInt(accepted, 10)
-      if (Date.now() - acceptedAt < ACCEPT_DURATION_MS) {
-        setShow(false)
-        return
-      }
+      if (Date.now() - acceptedAt < ACCEPT_DURATION_MS) return
     }
     setShow(true)
     document.body.style.overflow = 'hidden'
@@ -62,7 +57,7 @@ export default function InvestorGateBottomSheet({
     window.location.href = 'https://www.google.com'
   }
 
-  if (!enabled || !mounted || !show) return null
+  if (!enabled) return null
 
   return (
     <AnimatePresence>

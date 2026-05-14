@@ -8,11 +8,10 @@ function getResend(): Resend {
   return resend
 }
 
-// ── Simple in-memory rate limiter ─────────────────────────────────────────────
 // Limits each IP to MAX_REQUESTS per WINDOW_MS.
 // Note: serverless instances have separate memory, so this is a per-instance
 // guard rather than a global one. For stricter limits use Upstash Redis.
-const WINDOW_MS = 60_000 // 1 minute
+const WINDOW_MS = 60_000
 const MAX_REQUESTS = 5
 const ipMap = new Map<string, { count: number; resetAt: number }>()
 
@@ -20,6 +19,8 @@ function isRateLimited(ip: string): boolean {
   const now = Date.now()
   const entry = ipMap.get(ip)
   if (!entry || now > entry.resetAt) {
+    // Evict stale entry to prevent unbounded map growth
+    if (entry) ipMap.delete(ip)
     ipMap.set(ip, { count: 1, resetAt: now + WINDOW_MS })
     return false
   }
@@ -28,7 +29,6 @@ function isRateLimited(ip: string): boolean {
   return false
 }
 
-// ── HTML escaping ─────────────────────────────────────────────────────────────
 // Prevent HTML injection in the email body via user-supplied form fields.
 function escapeHtml(str: string): string {
   return str
@@ -52,7 +52,6 @@ function isValidEmail(email: string): boolean {
 }
 
 export async function POST(request: Request) {
-  // ── Rate limiting ─────────────────────────────────────────────────────────
   const ip =
     request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
     request.headers.get('x-real-ip') ??
@@ -65,7 +64,6 @@ export async function POST(request: Request) {
     )
   }
 
-  // ── Payload size guard ────────────────────────────────────────────────────
   const contentLength = request.headers.get('content-length')
   if (contentLength && parseInt(contentLength, 10) > 20_000) {
     return NextResponse.json({ message: 'Payload too large.' }, { status: 413 })
@@ -89,8 +87,9 @@ export async function POST(request: Request) {
       )
     }
 
-    // HTML-escape all user-supplied values before interpolating into email
-    const safeName = `${escapeHtml(firstName.trim())} ${escapeHtml(lastName.trim())}`
+    const safeFirst = escapeHtml(firstName.trim())
+    const safeLast = escapeHtml(lastName.trim())
+    const safeName = `${safeFirst} ${safeLast}`
     const safeEmail = escapeHtml(email.trim())
     const safePhone = phone?.trim() ? escapeHtml(phone.trim()) : null
     const safeMessage = escapeHtml(message.trim()).replace(/\n/g, '<br>')
@@ -99,7 +98,7 @@ export async function POST(request: Request) {
       from: 'Blackhorn Website <noreply@blackhorngrp.com>',
       to: 'info@blackhorngrp.com',
       replyTo: safeEmail,
-      subject: `Website Enquiry from ${escapeHtml(firstName.trim())} ${escapeHtml(lastName.trim())}`,
+      subject: `Website Enquiry from ${safeFirst} ${safeLast}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
           <h2 style="color: #1a1a1a; border-bottom: 2px solid #C9A96E; padding-bottom: 12px;">

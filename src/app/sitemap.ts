@@ -1,8 +1,33 @@
 import type { MetadataRoute } from 'next'
 import { fetchBlogPosts, fetchPressArticles, fetchEvents } from '@/lib/sanity/fetch'
+import { SITE_CONFIG } from '@/lib/constants'
+import { routing } from '@/i18n/routing'
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.blackhorngrp.com'
-const LOCALES = ['en', 'zh-hant'] as const
+const LOCALES = routing.locales
+
+/** Build a full URL for a given locale + path.
+ *  English default locale has no prefix (localePrefix: 'as-needed').
+ */
+function buildUrl(locale: string, path: string): string {
+  const prefix = locale === 'en' ? '' : `/${locale}`
+  return `${SITE_CONFIG.url}${prefix}${path}`
+}
+
+/** Build sitemap entries for a set of dynamic Sanity documents. */
+function toDynamicEntries(
+  items: Array<{ slug: { current: string }; date?: string; publishDate?: string }>,
+  pathPrefix: string
+): MetadataRoute.Sitemap {
+  return items.flatMap((item) => {
+    const dateStr = item.publishDate ?? item.date ?? new Date().toISOString()
+    return LOCALES.map((locale) => ({
+      url: buildUrl(locale, `${pathPrefix}/${item.slug.current}`),
+      lastModified: new Date(dateStr),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    }))
+  })
+}
 
 // Pages that exist under the locale prefix
 const staticPages = [
@@ -37,14 +62,6 @@ const staticPages = [
   { path: '/important-notice',                  changeFrequency: 'yearly'  as const, priority: 0.3 },
 ]
 
-/** Build a full URL for a given locale + path.
- *  English default locale has no prefix (localePrefix: 'as-needed').
- */
-function buildUrl(locale: string, path: string): string {
-  const prefix = locale === 'en' ? '' : `/${locale}`
-  return `${BASE_URL}${prefix}${path}`
-}
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date()
 
@@ -66,32 +83,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     fetchEvents(),
   ])
 
-  const blogEntries: MetadataRoute.Sitemap = blogPosts.flatMap((post) =>
-    LOCALES.map((locale) => ({
-      url: buildUrl(locale, `/insights/news/${post.slug.current}`),
-      lastModified: new Date(post.publishDate),
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
-    }))
-  )
-
-  const pressEntries: MetadataRoute.Sitemap = pressArticles.flatMap((article) =>
-    LOCALES.map((locale) => ({
-      url: buildUrl(locale, `/insights/press/${article.slug.current}`),
-      lastModified: new Date(article.publishDate),
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
-    }))
-  )
-
-  const eventEntries: MetadataRoute.Sitemap = events.flatMap((event) =>
-    LOCALES.map((locale) => ({
-      url: buildUrl(locale, `/insights/events/${event.slug.current}`),
-      lastModified: new Date(event.date),
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
-    }))
-  )
-
-  return [...staticEntries, ...blogEntries, ...pressEntries, ...eventEntries]
+  return [
+    ...staticEntries,
+    ...toDynamicEntries(blogPosts, '/insights/news'),
+    ...toDynamicEntries(pressArticles, '/insights/press'),
+    ...toDynamicEntries(events, '/insights/events'),
+  ]
 }

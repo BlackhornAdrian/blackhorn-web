@@ -1,6 +1,6 @@
 import { SITE_CONFIG } from '@/lib/constants'
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.blackhorngrp.com'
+const BASE_URL = SITE_CONFIG.url
 
 /**
  * Serialize a JSON-LD schema for safe embedding inside a <script> tag.

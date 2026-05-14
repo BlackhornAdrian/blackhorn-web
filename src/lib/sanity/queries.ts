@@ -131,7 +131,7 @@ export const featuredBlogPostsQuery = groq`
 `
 
 export const recentBlogPostsQuery = groq`
-  *[_type == "blogPost" && status == "published"] | order(publishDate desc)[0...4] {
+  *[_type == "blogPost" && status == "published"] | order(publishDate desc)[0...3] {
     _id, title, title_zh,
     slug,
     publishDate,

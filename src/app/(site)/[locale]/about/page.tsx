@@ -33,8 +33,10 @@ export default async function AboutPage() {
   const t = await getTranslations('about')
   const tc = await getTranslations('common')
   const locale = await getLocale()
-  const cmsPillars = await fetchAboutPillars()
-  const settings = await fetchSiteSettings()
+  const [cmsPillars, settings] = await Promise.all([
+    fetchAboutPillars(),
+    fetchSiteSettings(),
+  ])
   const heroImage = getHeroImage(settings, 'about')
   const heroText = getHeroText(settings, 'about', locale)
 

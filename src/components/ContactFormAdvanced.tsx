@@ -135,7 +135,7 @@ export default function ContactFormAdvanced() {
       const data = await res.json()
 
       if (!res.ok) {
-        setErrorMsg(data.message || 'Something went wrong.')
+        setErrorMsg(data.message || t('validation.somethingWentWrong'))
         setStatus('error')
         return
       }

@@ -1,6 +1,7 @@
 import createNextIntlPlugin from 'next-intl/plugin'
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
+const isProd = process.env.NODE_ENV === 'production'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -44,7 +45,7 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+              `script-src 'self' 'unsafe-inline'${isProd ? '' : " 'unsafe-eval'"}`,
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com",
               "img-src 'self' data: blob: https://cdn.sanity.io",
@@ -65,16 +66,6 @@ const nextConfig = {
       {
         source: '/family-office',
         destination: '/services/family-office',
-        permanent: true,
-      },
-      {
-        source: '/en/family-office',
-        destination: '/en/services/family-office',
-        permanent: true,
-      },
-      {
-        source: '/zh-hant/family-office',
-        destination: '/zh-hant/services/family-office',
         permanent: true,
       },
       {
