@@ -50,6 +50,7 @@ const nextConfig = {
               "font-src 'self' https://fonts.gstatic.com",
               "img-src 'self' data: blob: https://cdn.sanity.io",
               "connect-src 'self' https://cdn.sanity.io https://*.sanity.io https://api.resend.com",
+              "frame-src https://www.google.com https://maps.google.com",
               "frame-ancestors 'self'",
               "base-uri 'self'",
               "form-action 'self'",
