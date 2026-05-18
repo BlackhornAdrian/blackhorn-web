@@ -2,7 +2,7 @@ import { defineType, defineField, defineArrayMember } from 'sanity'
 
 export default defineType({
   name: 'siteSettings',
-  title: 'Site Settingss',
+  title: 'Site Settings',
   type: 'document',
   fieldsets: [
     {
@@ -14,7 +14,7 @@ export default defineType({
   fields: [
     defineField({
       name: 'companyName',
-      title: 'Company Legal Name',
+      title: 'Company Legal Namee',
       type: 'string',
       initialValue: 'Blackhorn Wealth Management Limited',
     }),
