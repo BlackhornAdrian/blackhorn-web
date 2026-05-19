@@ -14,22 +14,22 @@ export default defineType({
   fields: [
     defineField({
       name: 'companyName',
-      title: 'Company Legal Namee',
+      title: 'Company Legal Name',
       type: 'string',
       initialValue: 'Blackhorn Wealth Management Limited',
     }),
-    defineField({
-      name: 'phone',
-      title: 'Phone Number',
-      type: 'string',
-      initialValue: '+852 2709 1388',
-    }),
-    defineField({
-      name: 'email',
-      title: 'General Email',
-      type: 'string',
-      initialValue: 'info@blackhorngrp.com',
-    }),
+    // defineField({
+    //   name: 'phone',
+    //   title: 'Phone Number',
+    //   type: 'string',
+    //   initialValue: '+852 2709 1388',
+    // }),
+    // defineField({
+    //   name: 'email',
+    //   title: 'General Email',
+    //   type: 'string',
+    //   initialValue: 'info@blackhorngrp.com',
+    // }),
     defineField({
       name: 'careersEmail',
       title: 'Careers Email',
@@ -47,19 +47,6 @@ export default defineType({
       title: 'Compliance Hotline',
       type: 'string',
       initialValue: '+852 2709 1568',
-    }),
-    defineField({
-      name: 'address',
-      title: 'Office Address',
-      type: 'text',
-      rows: 3,
-    }),
-    defineField({
-      name: 'address_zh',
-      title: 'Office Address (Chinese)',
-      type: 'text',
-      rows: 3,
-      fieldset: 'chinese',
     }),
     defineField({
       name: 'sfcLicense',

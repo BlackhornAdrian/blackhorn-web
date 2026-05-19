@@ -6,7 +6,7 @@ import FadeIn from '@/components/ui/FadeIn'
 import ContactCTA from '@/components/home/ContactCTA'
 import { BreadcrumbJsonLd } from '@/components/seo/JsonLd'
 import AboutSectionNav from '@/components/about/AboutSectionNav'
-import { fetchSiteSettings, fetchAboutPillarBySlug, getHeroImage, getHeroText } from '@/lib/sanity/fetch'
+import { fetchSiteSettings, fetchOurLocation, fetchAboutPillarBySlug, getHeroImage, getHeroText } from '@/lib/sanity/fetch'
 import { localizedBlocks } from '@/lib/i18n-utils'
 
 /* Portable Text components for location page CMS content */
@@ -43,6 +43,7 @@ export default async function OurLocationPage() {
   const tc = await getTranslations('common')
   const locale = await getLocale()
   const settings = await fetchSiteSettings()
+  const ourLocation = await fetchOurLocation()
   const heroImage = getHeroImage(settings, 'about-our-location')
   const heroText = getHeroText(settings, 'about-our-location', locale)
 
@@ -53,8 +54,8 @@ export default async function OurLocationPage() {
     : undefined
 
   // Use siteSettings values with i18n/hardcoded fallbacks
-  const phone = settings?.phone || '(852) 2709 1388'
-  const email = settings?.email || 'info@blackhorngrp.com'
+  const phone = ourLocation?.phone || '(852) 2709 1388'
+  const email = ourLocation?.email || 'info@blackhorngrp.com'
   const address =
     locale === 'zh-hant'
       ? settings?.address_zh || t('locationAddress')

@@ -14,6 +14,7 @@ import {
   Mic,
   GraduationCap,
   Scale,
+  MapPin,
 } from 'lucide-react'
 
 export default defineConfig({
@@ -51,12 +52,24 @@ export default defineConfig({
                 S.list()
                   .title('About')
                   .items([
+                    // S.documentTypeListItem('visionPage')
+                    //   .title('Our Vision')
+                    //   .icon(Users),
                     S.documentTypeListItem('teamMember')
                       .title('Our Team')
                       .icon(Users),
                     S.documentTypeListItem('award')
                       .title('Our Awards')
                       .icon(Trophy),
+                    S.listItem()
+                      .title('Our Location')
+                      .id('ourLocation')
+                      .icon(MapPin)
+                      .child(
+                        S.document()
+                          .schemaType('ourLocation')
+                          .documentId('ourLocation')
+                      ),
                     S.documentTypeListItem('aboutPillar')
                       .title('About Pillars')
                       .icon(Layers),

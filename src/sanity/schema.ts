@@ -8,6 +8,7 @@ import siteSettings from './schemas/siteSettings'
 import legalPage from './schemas/legalPage'
 import careerPosting from './schemas/careerPosting'
 import aboutPillar from './schemas/aboutPillar'
+import ourLocation from './schemas/ourLocation'
 
 export const schemaTypes = [
   teamMember,
@@ -20,4 +21,5 @@ export const schemaTypes = [
   legalPage,
   careerPosting,
   aboutPillar,
+  ourLocation
 ]

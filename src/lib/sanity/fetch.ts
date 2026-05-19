@@ -8,6 +8,7 @@
 import { sanityClient } from './client'
 import {
   siteSettingsQuery,
+  ourLocationQuery,
   managementTeamQuery,
   advisoryBoardQuery,
   servicesQuery,
@@ -85,6 +86,14 @@ export interface CMSSiteSettings {
     subtext_zh?: string
   }>
 }
+
+export interface CMSOurLocation {
+  phone?: string
+  email?: string
+  address?: string
+  address_zh?: string
+}
+
 
 export interface CMSTeamMember {
   _id: string
@@ -275,6 +284,10 @@ async function safeFetch<T>(
 
 export async function fetchSiteSettings(): Promise<CMSSiteSettings | null> {
   return safeFetch<CMSSiteSettings>(siteSettingsQuery, {}, ['siteSettings'])
+}
+
+export async function fetchOurLocation(): Promise<CMSOurLocation | null> {
+  return safeFetch<CMSOurLocation>(ourLocationQuery, {}, ['ourLocation'])
 }
 
 export async function fetchManagementTeam(): Promise<CMSTeamMember[]> {
