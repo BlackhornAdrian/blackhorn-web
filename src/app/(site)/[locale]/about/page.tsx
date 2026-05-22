@@ -6,7 +6,7 @@ import FadeIn from '@/components/ui/FadeIn'
 import ContactCTA from '@/components/home/ContactCTA'
 import { BreadcrumbJsonLd } from '@/components/seo/JsonLd'
 import AboutSectionNav from '@/components/about/AboutSectionNav'
-import { fetchAboutPillars, fetchSiteSettings, getHeroImage, getHeroText } from '@/lib/sanity/fetch'
+import { fetchAboutPillars, fetchSiteSettings, getHeroImage, getHeroText, fetchAboutPage } from '@/lib/sanity/fetch'
 import { localized } from '@/lib/i18n-utils'
 
 /* Hardcoded fallback if Sanity is empty */
@@ -33,12 +33,14 @@ export default async function AboutPage() {
   const t = await getTranslations('about')
   const tc = await getTranslations('common')
   const locale = await getLocale()
-  const [cmsPillars, settings] = await Promise.all([
+  const [cmsPillars, settings, aboutPage] = await Promise.all([
     fetchAboutPillars(),
     fetchSiteSettings(),
+    fetchAboutPage(),
   ])
   const heroImage = getHeroImage(settings, 'about')
-  const heroText = getHeroText(settings, 'about', locale)
+  const heroHeading = localized(aboutPage, 'heroMessage', locale) || t('heroHeading')
+  const heroSubtext = localized(aboutPage, 'heroSubText', locale) || t('heroSubtext')
 
   return (
     <>
@@ -69,12 +71,12 @@ export default async function AboutPage() {
             </FadeIn>
             <FadeIn delay={0.1}>
               <h1 className="mt-6 max-w-3xl font-serif text-4xl font-light leading-tight text-light text-shadow-hero md:text-5xl lg:text-6xl">
-                {heroText?.heading ?? t('heroHeading')}
+                {heroHeading}
               </h1>
             </FadeIn>
             <FadeIn delay={0.2}>
               <p className="mt-8 max-w-2xl font-sans text-lg font-light leading-relaxed text-white text-shadow-hero">
-                {heroText?.subtext ?? t('heroSubtext')}
+                {heroSubtext}
               </p>
             </FadeIn>
           </div>

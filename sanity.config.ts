@@ -52,6 +52,15 @@ export default defineConfig({
                 S.list()
                   .title('About')
                   .items([
+                    S.listItem()
+                      .title('About Page')
+                      .id('aboutPage')
+                      .icon(Building2)
+                      .child(
+                        S.document()
+                          .schemaType('aboutPage')
+                          .documentId('aboutPage')
+                      ),
                     // S.documentTypeListItem('visionPage')
                     //   .title('Our Vision')
                     //   .icon(Users),

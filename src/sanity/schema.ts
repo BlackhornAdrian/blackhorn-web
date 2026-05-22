@@ -9,6 +9,7 @@ import legalPage from './schemas/legalPage'
 import careerPosting from './schemas/careerPosting'
 import aboutPillar from './schemas/aboutPillar'
 import ourLocation from './schemas/ourLocation'
+import aboutPage from './schemas/aboutPage'
 
 export const schemaTypes = [
   teamMember,
@@ -21,5 +22,6 @@ export const schemaTypes = [
   legalPage,
   careerPosting,
   aboutPillar,
-  ourLocation
+  ourLocation,
+  aboutPage,
 ]

@@ -8,6 +8,7 @@
 import { sanityClient } from './client'
 import {
   siteSettingsQuery,
+  aboutPageQuery,
   ourLocationQuery,
   managementTeamQuery,
   advisoryBoardQuery,
@@ -32,6 +33,13 @@ import {
 // ---------------------------------------------------------------------------
 // Types (CMS-shaped — includes _zh fields for bilingual support)
 // ---------------------------------------------------------------------------
+
+export interface CMSAboutPage {
+  heroMessage?: string
+  heroSubText?: string
+  heroMessage_zh?: string
+  heroSubText_zh?: string
+}
 
 export interface CMSSiteSettings {
   companyName?: string
@@ -281,6 +289,10 @@ async function safeFetch<T>(
 // ---------------------------------------------------------------------------
 // Public fetch functions
 // ---------------------------------------------------------------------------
+
+export async function fetchAboutPage(): Promise<CMSAboutPage | null> {
+  return safeFetch<CMSAboutPage>(aboutPageQuery, {}, ['aboutPage'])
+}
 
 export async function fetchSiteSettings(): Promise<CMSSiteSettings | null> {
   return safeFetch<CMSSiteSettings>(siteSettingsQuery, {}, ['siteSettings'])
