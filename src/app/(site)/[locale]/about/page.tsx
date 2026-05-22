@@ -6,7 +6,7 @@ import FadeIn from '@/components/ui/FadeIn'
 import ContactCTA from '@/components/home/ContactCTA'
 import { BreadcrumbJsonLd } from '@/components/seo/JsonLd'
 import AboutSectionNav from '@/components/about/AboutSectionNav'
-import { fetchAboutPillars, fetchSiteSettings, getHeroImage, getHeroText, fetchAboutPage } from '@/lib/sanity/fetch'
+import { fetchAboutPillars, fetchSiteSettings, getHeroImage, fetchAboutPage } from '@/lib/sanity/fetch'
 import { localized } from '@/lib/i18n-utils'
 
 /* Hardcoded fallback if Sanity is empty */
