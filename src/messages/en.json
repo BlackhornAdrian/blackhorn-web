@@ -30,6 +30,7 @@
     "advisors": "Advisory Board",
     "services": "Services",
     "wealthManagement": "Wealth Management",
+    "legacyPlanning": "Legacy Planning",
     "investmentAdvisory": "Investment Advisory",
     "familyOffice": "Family Office",
     "estateLegacy": "Estate & Legacy Planning",
@@ -286,6 +287,8 @@
     "heroSubtext": "Our independence empowers us to create fully tailored wealth solutions centred on your priorities. We guide you through a process defined by insight, partnership, and measurable outcomes.",
     "sectionWM": "Wealth Management",
     "sectionFO": "Family Office Advisory",
+    "sectionLP": "Legacy Planning",
+    "sectionCTFS": "CTFS Ecosystem",
     "wmHeroHeading": "Independent Wealth Management Backed by Global Banking Partnerships",
     "wmHeroSubtext": "We have strategic partnerships with major international private banks, where our firm is an approved asset manager on their platforms.",
     "wmPortfolioManagement": "Portfolio Management",
@@ -312,7 +315,8 @@
     "foInsurancePlanningDesc": "Comprehensive insurance solutions designed to protect family wealth, including life insurance, key person insurance, and wealth transfer strategies.",
     "foAdvisoryTeam": "Advisory Team",
     "foInfoPlaceholder": "Family Office Infographic",
-    "foInfoPlaceholderDesc": "Custom family office structure diagram will be provided by Blackhorn."
+    "foInfoPlaceholderDesc": "Custom family office structure diagram will be provided by Blackhorn.",
+    "ctfsHeroSubtext": "Blackhorn serves as a specialist investment and advisory platform within the CTF ecosystem, complementing the Group’s diversified businesses across insurance, financial services, infrastructure, and lifestyle sectors."
   },
   "awards": {
     "overline": "Recognition",

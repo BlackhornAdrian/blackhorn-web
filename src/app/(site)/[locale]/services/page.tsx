@@ -29,6 +29,18 @@ const serviceCards = [
     href: '/services/family-office',
     icon: '›',
   },
+  {
+    titleKey: 'sectionLP',
+    descKey: 'legacyPlanningDesc',
+    href: '/services/estate-legacy',
+    icon: '›',
+  },
+  {
+    titleKey: 'sectionCTFS',
+    descKey: 'ctfsHeroSubtext',
+    href: '/services/ctfs-ecosystem',
+    icon: '›',
+  },
 ]
 
 export default async function ServicesPage() {
