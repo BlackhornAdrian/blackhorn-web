@@ -28,6 +28,7 @@ import {
   careerPostingsQuery,
   careerPostingBySlugQuery,
   legalPageBySlugQuery,
+  ourVisionQuery,
 } from './queries'
 
 // ---------------------------------------------------------------------------
@@ -93,6 +94,18 @@ export interface CMSSiteSettings {
     subtext?: string
     subtext_zh?: string
   }>
+}
+
+export interface CMSOurVision {
+  heroLabel?: string
+  heroMessage?: string
+  heroSubText?: string
+  content?: unknown[]
+  heroLabel_zh?: string
+  heroMessage_zh?: string
+  heroSubText_zh?: string
+  content_zh?: unknown[]
+  image_url?: string
 }
 
 export interface CMSOurLocation {
@@ -296,6 +309,10 @@ export async function fetchAboutPage(): Promise<CMSAboutPage | null> {
 
 export async function fetchSiteSettings(): Promise<CMSSiteSettings | null> {
   return safeFetch<CMSSiteSettings>(siteSettingsQuery, {}, ['siteSettings'])
+}
+
+export async function fetchOurVision(): Promise<CMSOurVision | null> {
+  return safeFetch<CMSOurVision>(ourVisionQuery, {}, ['ourVision'])
 }
 
 export async function fetchOurLocation(): Promise<CMSOurLocation | null> {

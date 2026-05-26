@@ -15,6 +15,7 @@ import {
   GraduationCap,
   Scale,
   MapPin,
+  Telescope,
 } from 'lucide-react'
 
 export default defineConfig({
@@ -61,9 +62,15 @@ export default defineConfig({
                           .schemaType('aboutPage')
                           .documentId('aboutPage')
                       ),
-                    // S.documentTypeListItem('visionPage')
-                    //   .title('Our Vision')
-                    //   .icon(Users),
+                    S.listItem()
+                      .title('Our Vision')
+                      .id('ourVision')
+                      .icon(Telescope)
+                      .child(
+                        S.document()
+                          .schemaType('ourVision')
+                          .documentId('ourVision')
+                      ),
                     S.documentTypeListItem('teamMember')
                       .title('Our Team')
                       .icon(Users),

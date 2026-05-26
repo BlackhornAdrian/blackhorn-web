@@ -263,6 +263,18 @@ export const aboutPageQuery = groq`
 // Our Location
 // ---------------------------------------------------------------------------
 
+export const ourVisionQuery = groq`
+  *[_type == "ourVision"][0] {
+    heroLabel, heroMessage, heroSubText, content, 
+    "image_url": image.asset->url,
+    heroLabel_zh, heroMessage_zh, heroSubText_zh, content_zh
+  }
+`
+
+// ---------------------------------------------------------------------------
+// Our Location
+// ---------------------------------------------------------------------------
+
 export const ourLocationQuery = groq`
   *[_type == "ourLocation"][0] {
     companyName, companyName_zh,
